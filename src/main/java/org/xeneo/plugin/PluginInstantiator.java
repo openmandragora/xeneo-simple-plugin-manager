@@ -32,7 +32,9 @@ public class PluginInstantiator {
     public <P extends Plugin> P createPluginInstance(PluginConfiguration pc, Class<P> t) throws PluginException {
 
         try {
-            Class plugin = Class.forName(pc.getPluginClass());
+            logger.info("Try to load Class: " + pc.getPluginClass());
+            
+            Class plugin = PluginInstantiator.class.forName(pc.getPluginClass());
             Object o = plugin.newInstance();
             
             if (t.isInstance(o)) {

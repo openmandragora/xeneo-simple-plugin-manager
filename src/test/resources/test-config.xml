@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:c="http://www.springframework.org/schema/context"
-	xmlns:security="http://www.springframework.org/schema/security"
-        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-        xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
                            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                            http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
@@ -24,8 +24,35 @@
         <property name="taskScheduler" ref="scheduler" />
     </bean>
     
-    <bean id="configurator" class="org.xeneo.plugin.PluginConfiguratorImpl">
+    <bean id="configurator" class="org.xeneo.plugin.PluginConfiguratorImpl" >
         <property name="activityPluginRuntime" ref="activityRuntime" />
+        <property name="plugins">
+            <list>
+                <bean id="dropboxPlugin" class="org.xeneo.core.plugin.PluginConfiguration">
+                    <property name="title" value="Dropbox Plugin" />
+                    <property name="description" value="Plugin responsible for retrieving Dropbox Activities." />
+                    <property name="pluginClass" value="at.markmei.xeneo.plugin.DropboxActivityPlugin" />                    
+                    <property name="pluginType" value="ACTIVITY_PLUGIN" />
+                    <property name="pluginURI" value="http://plugin.xeneo.org/dropbox-activity-plugin" />
+                    <property name="properties">
+                        <array>
+                            <bean id="p1" class="org.xeneo.core.plugin.PluginProperty">
+                                <property name="name" value="param1" />
+                                <property name="type" value="URI" />
+                            </bean>
+                            <bean id="p2" class="org.xeneo.core.plugin.PluginProperty">
+                                <property name="name" value="param2" />
+                                <property name="type" value="URI" />
+                            </bean>
+                            <bean id="p3" class="org.xeneo.core.plugin.PluginProperty">
+                                <property name="name" value="param3" />
+                                <property name="type" value="URI" />
+                            </bean>
+                        </array>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
     
 </beans>

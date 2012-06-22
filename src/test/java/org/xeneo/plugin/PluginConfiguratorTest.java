@@ -24,6 +24,8 @@ import org.xeneo.core.plugin.PluginRepository;
 import static org.easymock.EasyMock.*;
 import org.junit.Test;
 import org.xeneo.core.plugin.PluginConfiguration;
+import org.xeneo.core.plugin.PluginProperty;
+import org.xeneo.core.plugin.PluginPropertyType;
 import org.xeneo.core.plugin.PluginType;
 
 /**
@@ -45,6 +47,29 @@ public class PluginConfiguratorTest {
     }
     
     private String className = "at.stefanhuber.xeneo.plugin.SimpleTestPlugin";
+    
+    @Test
+    public void testInit() {
+        PluginConfiguration pc = new PluginConfiguration();
+        pc.setTitle("Dropbox Plugin");
+        pc.setPluginURI("http://plugin.xeneo.org/dropbox-activity-plugin");
+        
+        PluginProperty[] pps = new PluginProperty[3];
+        for (int i = 0; i < 3;i++) {
+            pps[i] = new PluginProperty();
+            pps[i].setName("param" + i);
+            pps[i].setType(PluginPropertyType.URI);
+        }        
+        pc.setProperties(pps);
+        
+        mock.addPlugin(pc);
+        
+        replay(mock);
+        
+        configurator.init();
+        
+        verify(mock);       
+    }
     
     @Test
     public void testPluginConfiguration() {

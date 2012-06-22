@@ -77,6 +77,7 @@ public class ActivityPluginRuntimeImpl implements ActivityPluginRuntime {
      */
     protected void cancelTask(String instanceid) {
         if (tasks.containsKey(instanceid)) {
+            logger.info("Try to cancel task with instance id: " + instanceid);
             ScheduledFuture sf = tasks.get(instanceid);
             sf.cancel(false);
             tasks.remove(instanceid);

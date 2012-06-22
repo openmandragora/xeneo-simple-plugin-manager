@@ -16,6 +16,8 @@
 package org.xeneo.plugin;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xeneo.core.plugin.PluginConfiguration;
 import org.xeneo.core.plugin.PluginConfigurator;
 import org.xeneo.core.plugin.PluginRepository;
@@ -28,8 +30,20 @@ import org.xeneo.core.plugin.activity.ActivityPluginRuntime;
  */
 public class PluginConfiguratorImpl implements PluginConfigurator {
 
+    private static Logger logger = LoggerFactory.getLogger(PluginConfiguratorImpl.class);
     private PluginRepository repository;
     private ActivityPluginRuntime runtime;
+    private List<PluginConfiguration> initPlugins;
+
+    public void init() {
+        logger.info("Init Plugins...");
+        for (PluginConfiguration pc : initPlugins) {            
+            repository.addPlugin(pc);
+            logger.info("Plugin with title: " + pc.getTitle() + " added.");
+        }
+        
+        initPlugins = null;
+    }
 
     public void setPluginRepository(PluginRepository repository) {
         this.repository = repository;
@@ -37,6 +51,11 @@ public class PluginConfiguratorImpl implements PluginConfigurator {
 
     public void setActivityPluginRuntime(ActivityPluginRuntime runtime) {
         this.runtime = runtime;
+    }
+
+    public void setPlugins(List<PluginConfiguration> pcs) {
+        logger.info("set Plugins for initialization.");
+        initPlugins = pcs;
     }
 
     public List<PluginConfiguration> listAvailablePlugins(String userURI, PluginType[] pluginTypes) {
@@ -50,6 +69,7 @@ public class PluginConfiguratorImpl implements PluginConfigurator {
 
         if (pc.getPluginType().equals(PluginType.ACTIVITY_PLUGIN)) {
             // start the plugin with respective configuration
+            logger.info("Start Activity Plugin: " + pc.getTitle());
             runtime.startActivityPlugin(pc);
         }
 
