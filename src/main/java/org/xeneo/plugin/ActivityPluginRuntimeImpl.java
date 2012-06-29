@@ -64,7 +64,7 @@ public class ActivityPluginRuntimeImpl implements ActivityPluginRuntime {
             ap.setActivityManager(am);
 
             ap.init();
-            tasks.put(instanceid, scheduler.scheduleWithFixedDelay(ap, 5000L));
+            tasks.put(instanceid, scheduler.scheduleWithFixedDelay(ap, 30000L));
 
         } catch (PluginException ex) {
             logger.error("Plugin couldn't be intantiated: " + ex.getMessage());
