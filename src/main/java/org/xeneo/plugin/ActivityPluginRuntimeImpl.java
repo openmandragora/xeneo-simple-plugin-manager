@@ -22,7 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.TaskScheduler;
-import org.xeneo.core.activity.ActivityManager;
+import org.xeneo.core.activity.ActivityRepository;
 import org.xeneo.core.plugin.PluginConfiguration;
 import org.xeneo.core.plugin.PluginException;
 import org.xeneo.core.plugin.activity.ActivityPlugin;
@@ -37,14 +37,14 @@ public class ActivityPluginRuntimeImpl implements ActivityPluginRuntime {
     private static Logger logger = LoggerFactory.getLogger(ActivityPluginRuntimeImpl.class);
     private Map<String, ScheduledFuture> tasks = new HashMap<String, ScheduledFuture>();
     private PluginInstantiator pi;
-    private ActivityManager am;
+    private ActivityRepository am;
     private TaskScheduler scheduler;
 
     public void setPluginInstantiator(PluginInstantiator pi) {
         this.pi = pi;
     }
     
-    public void setActivityManager(ActivityManager am) {
+    public void setActivityRepository(ActivityRepository am) {
         this.am = am;
     }
     
@@ -61,7 +61,7 @@ public class ActivityPluginRuntimeImpl implements ActivityPluginRuntime {
         try {
             ActivityPlugin ap = pi.createPluginInstance(pc, ActivityPlugin.class);
             ap.setPluginConfiguration(pc);
-            ap.setActivityManager(am);
+            ap.setActivityRepository(am);
 
             ap.init();
             tasks.put(instanceid, scheduler.scheduleWithFixedDelay(ap, 30000L));

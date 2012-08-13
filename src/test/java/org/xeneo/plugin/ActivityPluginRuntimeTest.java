@@ -21,10 +21,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xeneo.core.activity.ActivityManager;
 import static org.easymock.EasyMock.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xeneo.core.activity.ActivityRepository;
 import org.xeneo.core.plugin.PluginConfiguration;
 
 /**
@@ -38,15 +38,15 @@ public class ActivityPluginRuntimeTest {
     private static Logger logger = LoggerFactory.getLogger(ActivityPluginRuntimeTest.class);
     @Autowired
     private ActivityPluginRuntimeImpl runtime;
-    private ActivityManager mock;
+    private ActivityRepository mock;
     private String className = "at.stefanhuber.xeneo.plugin.SimpleTestPlugin";
 
     private int n = 20;
     
     @Before
     public void setUp() {
-        mock = createMock(ActivityManager.class);
-        runtime.setActivityManager(mock);
+        mock = createMock(ActivityRepository.class);
+        runtime.setActivityRepository(mock);
 
 
     }
